@@ -30,7 +30,7 @@ const Styledbutton = styled.button`
   border-radius: 2rem;
   font-size: 1.5rem;
   padding: 0 1rem 0 1rem;
-  font-family: "Kalam";
+  font-family:"Kalam", cursive;
 `;
 
 function ListInput() {
