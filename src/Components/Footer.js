@@ -9,8 +9,9 @@ const Styledfooter = styled.footer`
   height: 3rem;
   font-size: 1.5rem;
   width: 100%;
-  padding-top:1rem;
-  background-color:#E4D0D077;
+  padding-top: 1rem;
+  background-color: #e4d0d077;
+  box-shadow: 0px 0px 14px 5px #e4d0d0;
 `;
 
 function Footer() {

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { Button } from "@mui/material";
-import deleteicon from "../Assets/trash.png";
+import ListItems from "./ListItems";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -19,15 +18,21 @@ const StyledInput = styled.input`
   text-align: center;
   margin-right: 1rem;
   width: 20rem;
-  font-size:1.5rem;
+  font-size: 1.5rem;
 `;
 
-const Styledul = styled.ul`
-  padding: 1rem;
-  box-shadow: 0px 0px 14px 5px #e4d0d0;
-  padding-bottom: 3rem;
-  margin-top: 3rem;
+const Styledbutton = styled.button`
+  background-color: #e4d0d0;
+  :hover {
+    background-color: #867070;
+  }
+  border-width: 0;
+  border-radius: 2rem;
+  font-size: 1.5rem;
+  padding: 0 1rem 0 1rem;
+  font-family: "Kalam";
 `;
+
 function ListInput() {
   const [value, setvalue] = useState("");
   const [listitems, setlistitems] = useState([]);
@@ -38,14 +43,9 @@ function ListInput() {
     setvalue(currentValue);
   }
   function handleClick() {
-    console.log(ss.current.value);
     ss.current.value = "";
     value && setlistitems((prevValue) => [...prevValue, value]);
     setvalue(null);
-  }
-
-  function handleDelete(item) {
-    setlistitems(listitems.filter((i) => i !== item));
   }
 
   return (
@@ -57,50 +57,10 @@ function ListInput() {
           type="text"
           placeholder="Enter"
         />
-        <Button
-          sx={{
-            backgroundColor: "#E4D0D0",
-            ":hover": {
-              backgroundColor: "#867070",
-            },
-            color: "black",
-          }}
-          onClick={handleClick}
-          style={{
-            borderRadius: "2rem",
-            fontSize: "1.5rem",
-            padding: "0 1rem 0 1rem",
-            fontFamily: "Kalam",
-          }}
-        >
-          Add
-        </Button>
+        <Styledbutton onClick={handleClick}>Add</Styledbutton>
       </StyledDiv>
 
-      {listitems.length ? (
-        <Styledul>
-          {listitems.map((items) => (
-            <StyledDiv key={items}>
-              <li style={{ marginRight: "1rem" }}>{items}</li>
-              <Button
-                sx={{
-                  backgroundColor: "#E4D0D0",
-                  ":hover": {
-                    backgroundColor: "#867070",
-                  },
-                }}
-                variant="text"
-                onClick={() => handleDelete(items)}
-                style={{ borderRadius: "2rem" }}
-              >
-                <img style={{ height: "1rem" }} src={deleteicon} alt="delete" />
-              </Button>
-            </StyledDiv>
-          ))}
-        </Styledul>
-      ) : (
-        <></>
-      )}
+      <ListItems listitems={listitems} setlistitems={setlistitems} />
     </>
   );
 }
