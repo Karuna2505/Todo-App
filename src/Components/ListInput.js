@@ -47,17 +47,22 @@ function ListInput() {
     value && setlistitems((prevValue) => [...prevValue, value]);
     setvalue(null);
   }
-
+  function handleKeyDown(event){
+    if (event.key === 'Enter') {
+      handleClick();
+    }
+  };
   return (
     <>
       <StyledDiv>
         <StyledInput
           ref={ss}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           type="text"
           placeholder="Enter"
         />
-        <Styledbutton onClick={handleClick}>Add</Styledbutton>
+        <Styledbutton  onClick={handleClick}>Add</Styledbutton>
       </StyledDiv>
 
       <ListItems listitems={listitems} setlistitems={setlistitems} />
