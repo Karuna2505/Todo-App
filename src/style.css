@@ -2,3 +2,7 @@ body{
     margin:0%;
     background-color: #F5EBEB;
 }
+
+input[type="checkbox"] {
+    accent-color: #867070 /* Change to your preferred color */
+  }

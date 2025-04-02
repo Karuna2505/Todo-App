@@ -1,12 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import ListItems from "./ListItems";
 
 const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 3rem;
-  font-size: 2rem;
+  margin-top: 2rem;
+  font-size: 1rem;
   width: auto;
   color: #867070;
   font-weight: bold;
@@ -21,7 +21,7 @@ const StyledInput = styled.input`
   font-size: 1.5rem;
 `;
 
-const Styledbutton = styled.button`
+const StyledButton = styled.button`
   background-color: #e4d0d0;
   :hover {
     background-color: #867070;
@@ -29,43 +29,57 @@ const Styledbutton = styled.button`
   border-width: 0;
   border-radius: 2rem;
   font-size: 1.5rem;
-  padding: 0 1rem 0 1rem;
-  font-family:"Kalam", cursive;
+  padding: 0 1rem;
+  font-family: "Kalam", cursive;
 `;
 
 function ListInput() {
-  const [value, setvalue] = useState("");
-  const [listitems, setlistitems] = useState([]);
+  const [listitems, setListItems] = useState(() => {
+    return JSON.parse(localStorage.getItem("listItems")) || [];
+  });
 
-  const ss = useRef();
+  const [value, setValue] = useState("");
+  const inputRef = useRef();
+
+  // ✅ Save to localStorage whenever listitems change
+  useEffect(() => {
+    localStorage.setItem("listItems", JSON.stringify(listitems));
+  }, [listitems]);
+
   function handleChange(event) {
-    const currentValue = event.target.value;
-    setvalue(currentValue);
+    setValue(event.target.value);
   }
+
   function handleClick() {
-    ss.current.value = "";
-    value && setlistitems((prevValue) => [...prevValue, value]);
-    setvalue(null);
+    if (value.trim() === "") return;
+
+    const updatedList = [...listitems, { text: value, checked: false }];
+
+    setListItems(updatedList);
+    setValue("");
+    inputRef.current.value = "";
   }
-  function handleKeyDown(event){
-    if (event.key === 'Enter') {
+
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
       handleClick();
     }
-  };
+  }
+
   return (
     <>
       <StyledDiv>
         <StyledInput
-          ref={ss}
+          ref={inputRef}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           type="text"
           placeholder="Enter"
         />
-        <Styledbutton  onClick={handleClick}>Add</Styledbutton>
+        <StyledButton onClick={handleClick}>Add</StyledButton>
       </StyledDiv>
 
-      <ListItems listitems={listitems} setlistitems={setlistitems} />
+      <ListItems listitems={listitems} setlistitems={setListItems} />
     </>
   );
 }

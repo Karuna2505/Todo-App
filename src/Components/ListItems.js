@@ -4,16 +4,15 @@ import styled from "styled-components";
 
 const Styledul = styled.ul`
   padding: 1rem;
-  box-shadow: 0px 0px 14px 5px #e4d0d0;
-  padding-bottom: 3rem;
-  margin-top: 3rem;
+  list-style: none;
 `;
 
 const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 3rem;
-  font-size: 2rem;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 1.5rem;
   width: auto;
   color: #867070;
   font-weight: bold;
@@ -27,33 +26,50 @@ const StyledButton = styled.button`
     background-color: #867070;
   }
   border-width: 0;
-  width: 3%;
+  width: 2rem;
+  height: 2rem;
 `;
 
-function ListItems(props) {
-  let listitems = props.listitems;
-  let setlistitems = props.setlistitems;
+const StyledInput = styled.input`
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
+`;
 
-  function handleDelete(item) {
-    setlistitems(listitems.filter((i) => i !== item));
+function ListItems({ listitems, setlistitems }) {
+  // ✅ Handle checkbox toggle
+  function handleCheckboxChange(index) {
+    const updatedList = listitems.map((item, i) =>
+      i === index ? { ...item, checked: !item.checked } : item
+    );
+
+    setlistitems(updatedList);
+  }
+
+  function handleDelete(index) {
+    const updatedList = listitems.filter((_, i) => i !== index);
+    setlistitems(updatedList);
   }
 
   return (
     <>
       {listitems.length ? (
         <Styledul>
-          {listitems.map((items) => (
-            <StyledDiv key={items}>
-              <li style={{ marginRight: "1rem" }}>{items}</li>
-              <StyledButton variant="text" onClick={() => handleDelete(items)}>
+          {listitems.map((item, index) => (
+            <StyledDiv key={index}>
+              <StyledInput
+                type="checkbox"
+                checked={item.checked}
+                onChange={() => handleCheckboxChange(index)}
+              />
+              <li style={{ marginRight: "1rem" }}>{item.text}</li>
+              <StyledButton onClick={() => handleDelete(index)}>
                 <img style={{ height: "1rem" }} src={deleteicon} alt="delete" />
               </StyledButton>
             </StyledDiv>
           ))}
         </Styledul>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </>
   );
 }
