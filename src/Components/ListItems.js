@@ -12,6 +12,7 @@ const StyledDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+  margin-bottom:1rem;
   font-size: 1.5rem;
   width: auto;
   color: #867070;
